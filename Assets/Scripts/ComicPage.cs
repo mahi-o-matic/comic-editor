@@ -1,24 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.IO;
+using System.Text;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 /// <summary>
 /// ComicChapter ist ein XML-Root, der alle Pages eines Kapitels als Knoten beinhaltet.
 /// Jede Page hat einen Index, der für die Reihenfolge im Comic gedacht ist.
 /// </summary>
+/// 
+[XmlRoot("ComicChapter")]
 public class ComicChapter
 {
+    [XmlArray("ComicPages"), XmlArrayItem("ComicPage")]
     List<ComicPage> comicPages = new List<ComicPage>();
 
     #region Functions
 
-    public void LoadFile()
+    public static ComicChapter LoadFromFile(string fileName)
     {
-        throw new System.NotImplementedException();
+        XmlSerializer xS = new XmlSerializer(typeof(ComicChapter));
+
+        using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            return (ComicChapter)xS.Deserialize(fs);
+        }
     }
 
-    public void SaveFile()
+    public void SaveToFile(string fileName)
     {
-        throw new System.NotImplementedException();
+        XmlSerializer xS = new XmlSerializer(typeof(ComicChapter));
+
+        using (StreamWriter sw = new StreamWriter(fileName, false, Encoding.UTF8))
+        {
+            xS.Serialize(sw, this);
+        }
     }
 
     #endregion Functions
@@ -27,9 +43,16 @@ public class ComicChapter
     {
         #region Fields
 
-        public List<ContentHolder> speechBubbles = new List<ContentHolder>();
-        public List<ContentHolder> soundEffects = new List<ContentHolder>();
+        [XmlArray("SpeechBubbles"), XmlArrayItem("SpeechBubble")]
+        public List<ContentHolder> SpeechBubbles = new List<ContentHolder>();
 
+        [XmlArray("SoundEffects"), XmlArrayItem("SoundEffect")]
+        public List<ContentHolder> SoundEffects = new List<ContentHolder>();
+
+        [XmlAttribute("index")]
+        public int index;
+
+        [XmlAttribute("picture")]
         public string picture;
 
         #endregion Fields
@@ -42,40 +65,51 @@ public class ComicChapter
         public class ContentHolder
         {
             #region Fields
-            public List<DialogLine> dialogLines = new List<DialogLine>();
-            public List<DialogAudio> dialogAudios = new List<DialogAudio>();
-            private float positonX;
-            private float positionY;
+            [XmlArray("DialogLines"), XmlArrayItem("DialogLine")]
+            public Dictionary<string, string> DialogLines = new Dictionary<string, string>();
+
+            [XmlArray("DialogAudios"), XmlArrayItem("DialogAudio")]
+            public Dictionary<string, string> DialogAudios = new Dictionary<string, string>();
+
+            [XmlAttribute("posX")]
+            private float posX;
+
+            [XmlAttribute("posY")]
+            private float posY;
+
+            [XmlAttribute("maxHeight")]
             private float maxHeight;
+
+            [XmlAttribute("maxWidth")]
             private float maxWidth;
 
             #endregion Fields
 
-            #region Propertys
+            #region Properties
 
-            public float PositionX
+            public float PosX
             {
                 get
                 {
-                    return positonX;
+                    return posX;
                 }
 
                 set
                 {
-                    positonX = value;
+                    posX = value;
                 }
             }
 
-            public float PositonY
+            public float PosY
             {
                 get
                 {
-                    return positionY;
+                    return posY;
                 }
 
                 set
                 {
-                    positionY = value;
+                    posY = value;
                 }
             }
 
@@ -115,20 +149,7 @@ public class ComicChapter
                 }
             }
 
-            #endregion Propertys
-        }
-
-        /// <summary>
-        /// Falls Dialogline als Soundeffect verwendet wird, wird der Valuestring als Pfad verwendet.
-        /// </summary>
-        public class DialogLine
-        {
-            private Dictionary<string, string> lines = new Dictionary<string, string>();
-        }
-
-        public class DialogAudio
-        {
-            private string audioClips;
+            #endregion Properties
         }
 
         #endregion Classes
