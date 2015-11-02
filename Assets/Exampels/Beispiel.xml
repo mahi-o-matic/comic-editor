@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ComicChapter>
+  <Page Index="" Background="">
+    <SpeechBubble PositionX="" PositionY="" Width="" Height="">
+      <Text Language="" Text=""></Text>
+      <Text Language="" Text=""></Text>
+      <Audio Language="" Path=""></Audio>
+      <Audio Language="" Path=""></Audio>
+    </SpeechBubble>
+    <SoundEffect PositionX="" PositionY="" Width="" Height="">
+      <Text Language="" Path=""></Text>
+      <Text Language="" Path=""></Text>
+      <Audio Language="" Path=""></Audio>
+      <Audio Language="" Path=""></Audio>
+    </SoundEffect>
+  </Page>
+  <Page index="" background="">
+    <SpeechBubble PositionX="" PositionY="" Width="" Height="">
+      <Text Language="" Text=""></Text>
+      <Text Language="" Text=""></Text>
+      <Audio Language="" Path=""></Audio>
+      <Audio Language="" Path=""></Audio>
+    </SpeechBubble>
+    <SoundEffect PositionX="" PositionY="" Width="" Height="">
+      <Text Language="" Path=""></Text>
+      <Text Language="" Path=""></Text>
+      <Audio Language="" Path=""></Audio>
+      <Audio Language="" Path=""></Audio>
+    </SoundEffect>
+  </Page>
+</ComicChapter>
+
